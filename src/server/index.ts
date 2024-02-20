@@ -3,8 +3,9 @@ import dotenv from "dotenv";
 import express, { Express, Response } from "express";
 import path from "path";
 
-import redeemRouter from "./routes/redeem";
 import initializeDb from "./database";
+import redeemRouter from "./routes/redeem";
+import staffRouter from "./routes/staff";
 
 dotenv.config();
 dotenv.config({ path: `.env.${process.env["NODE_ENV"]}` });
@@ -18,6 +19,8 @@ app.use(express.static(path.join(__dirname, "../../public")));
 app.get("/", (_, res: Response) => {
     res.sendFile(path.join(__dirname, "../../public/index.html"));
 });
+
+app.use(staffRouter);
 app.use(redeemRouter);
 
 const port = process.env["PORT"]!;

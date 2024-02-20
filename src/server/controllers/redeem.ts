@@ -2,54 +2,44 @@ import Staff from "../database/models/staff";
 import Team from "../database/models/team";
 
 /**
- * GET /staff
- * Retrieves a team given a staff_pass_id,
- * and checks if the staff is eligible to claim
+ * GET /redeem
+ * Check if the team can redeem
  */
-async function getEligibility(
-    staffPassId: number
-): Promise<Record<string, any>> {
-    const staff = await Staff.findByPk(staffPassId, {
-        include: Team,
-    });
-
-    if (staff === null) {
+async function getRedeemability(teamId: number): Promise<Record<string, any>> {
+    const team = await Team.findByPk(teamId);
+    if (team === null) {
         return {
             canRedeem: false,
-            message: "Staff does not exist",
-        };
-    } else if (staff.team === null || staff.team === undefined) {
-        return {
-            canRedeem: false,
-            message: "Staff does not belong to any team",
+            message: "Team does not exist",
         };
     }
 
-    console.log(`[staff]: ${JSON.stringify(staff)}`);
-    if (staff.team?.redeemed) {
+    console.log(`[team]: ${JSON.stringify(team)}`);
+    if (team.redeemed) {
         // if the gift is already redeemed,
         // return timestamp to inform user of when it was redeemed
         return {
             canRedeem: false,
             message: "Gift has already been redeeemed",
-            redeemedAt: staff.team.redeemedAt,
+            redeemedAt: team.redeemedAt,
         };
     } else {
         // if can redeem, return the team name
         // and ask for confirmation of redemption
         return {
             canRedeem: true,
-            teamName: staff.team.name,
+            teamName: team.name,
         };
     }
 }
 
 /**
- * PUT /team
- * Retrieves a team_id and team name given a staff_pass_id
+ * PUT /redeem
+ * Update redemption table
  */
 async function updateRedemption(
-    staffPassId: number
+    staffPassId: number,
+    teamId: number
 ): Promise<Record<string, any>> {
     const staff = await Staff.findByPk(staffPassId, {
         include: Team,
@@ -67,13 +57,20 @@ async function updateRedemption(
         };
     }
 
-    console.log(`[staff]: ${JSON.stringify(staff)}`);
+    console.log(`[updateRedemption]: ${JSON.stringify(staff)}`);
+    if (staff.team.id != teamId) {
+        return {
+            redeemed: false,
+            message: `Staff does not belong to team ${teamId}`,
+        };
+    }
+
     const updatedTeam = await staff.team.update({
-        redeemed: true,
         redeemerId: staffPassId,
+        redeemed: true,
     });
 
-    console.log(`[team]: ${JSON.stringify(updatedTeam)}`);
+    console.log(`[updateRedemption]: ${JSON.stringify(updatedTeam)}`);
     if (updatedTeam === undefined) {
         return {
             redeemed: false,
@@ -86,4 +83,4 @@ async function updateRedemption(
     }
 }
 
-export { getEligibility, updateRedemption };
+export { getRedeemability, updateRedemption };

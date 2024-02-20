@@ -21,7 +21,7 @@ function initializeDb() {
         foreignKey: "teamId",
     });
     Team.belongsTo(Staff, {
-        foreignKey: "reedemerId",
+        foreignKey: "redeemerId",
         as: "redeemer",
     });
 
