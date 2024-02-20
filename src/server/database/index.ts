@@ -17,12 +17,12 @@ function initializeDb() {
     Staff.initialize(sequelize);
     Team.initialize(sequelize);
 
-    Staff.hasOne(Team, {
-        foreignKey: "reedemerId",
-    });
-    // Team only has 1 Staff because that refers to the redeemer
-    Team.hasOne(Staff, {
+    Staff.belongsTo(Team, {
         foreignKey: "teamId",
+    });
+    Team.belongsTo(Staff, {
+        foreignKey: "reedemerId",
+        as: "redeemer",
     });
 
     const csvPath = path.resolve(process.env["PWD"]!, process.env["CSV_PATH"]!);

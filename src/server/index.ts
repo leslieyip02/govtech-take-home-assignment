@@ -1,6 +1,7 @@
 import bodyparser from "body-parser";
 import dotenv from "dotenv";
 import express, { Express, Response } from "express";
+import path from "path";
 
 import redeemRouter from "./routes/redeem";
 import initializeDb from "./database";
@@ -12,8 +13,10 @@ initializeDb();
 
 const app: Express = express();
 app.use(bodyparser.json());
+
+app.use(express.static(path.join(__dirname, "../../public")));
 app.get("/", (_, res: Response) => {
-    res.sendFile(__dirname + "/public/index.html");
+    res.sendFile(path.join(__dirname, "../../public/index.html"));
 });
 app.use(redeemRouter);
 

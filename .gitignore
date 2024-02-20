@@ -1,4 +1,5 @@
+.env
 dist
 node_modules
-
-.env
+public/index.d.ts
+public/tsconfig.tsbuildinfo

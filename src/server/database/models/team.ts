@@ -6,6 +6,7 @@ import {
     HasOneGetAssociationMixin,
     HasOneSetAssociationMixin,
     Model,
+    NonAttribute,
     Sequelize,
 } from "sequelize";
 import Staff from "./staff";
@@ -15,15 +16,15 @@ export default class Team extends Model {
     declare name: string;
     declare redeemed: boolean;
     declare redeemerId: ForeignKey<string>;
-    declare redeemer: Staff;
     declare redeemedAt: Date;
 
     declare createStaff: HasOneCreateAssociationMixin<Staff>;
     declare getStaff: HasOneGetAssociationMixin<Staff>;
     declare setStaff: HasOneSetAssociationMixin<Staff, number>;
 
+    declare redeemer?: NonAttribute<Staff>;
     declare static associations: {
-        staffs: Association<Team, Staff>;
+        redeemer: Association<Team, Staff>;
     };
 
     public static initialize(sequelize: Sequelize) {
@@ -46,7 +47,12 @@ export default class Team extends Model {
                     type: DataTypes.DATE,
                 },
             },
-            { sequelize: sequelize, timestamps: false }
+            {
+                sequelize: sequelize,
+                timestamps: false,
+                modelName: "team",
+                tableName: "teams",
+            }
         );
 
         sequelize.addHook("afterUpdate", (instance: Team) => {

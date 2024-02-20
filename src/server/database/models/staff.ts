@@ -7,19 +7,20 @@ import {
     ForeignKey,
     Model,
     Sequelize,
+    NonAttribute,
 } from "sequelize";
 import Team from "./team";
 
 export default class Staff extends Model {
     declare id: string;
     declare teamId: ForeignKey<number>;
-    declare team: Team;
     declare createdAt: number;
 
     declare createTeam: HasOneCreateAssociationMixin<Team>;
     declare getTeam: HasOneGetAssociationMixin<Team>;
     declare setTeam: HasOneSetAssociationMixin<Team, number>;
 
+    declare team?: NonAttribute<Team>;
     declare static associations: {
         team: Association<Staff, Team>;
     };
@@ -37,7 +38,12 @@ export default class Staff extends Model {
                     type: DataTypes.BIGINT,
                 },
             },
-            { sequelize: sequelize, timestamps: false }
+            {
+                sequelize: sequelize,
+                timestamps: false,
+                modelName: "staff",
+                tableName: "staff",
+            }
         );
     }
 }
