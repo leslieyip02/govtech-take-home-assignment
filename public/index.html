@@ -8,28 +8,29 @@
 
     <body>
         <main>
-            <div id="alertContainer"></div>
-
             <form id="redemptionForm">
                 <div class="mb-2">
                     <label for="staffPassId" class="form-label">Staff Pass ID</label>
                     <input type="text" class="form-control" id="staffPassId" placeholder="ROLE_XXXXXXXXXXXX" />
+                    <span style="display: none" id="redemptionMessage">Hint Text</span>
                 </div>
                 <button type="submit" class="btn btn-primary sgds">Redeem</button>
             </form>
         </main>
 
-        <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+        <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel"
             aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h3 class="modal-title" id="exampleModalLabel">
-                            <i class="bi bi-exclamation-circle left me-2"></i>Confirmation of Redemption
+                        <h3 class="modal-title" id="confirmationModalLabel">
+                            <i class="icon bi bi-exclamation-circle me-2"></i>
+                            <span id="confirmationModalLabelText">Confirm Redemption</span>
                         </h3>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body">This action is irreversible!</div>
+                    <div class="modal-body">
+                        This action is <strong>irreversible</strong>!
+                    </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-outline-dark sgds" data-bs-dismiss="modal">
                             Cancel
@@ -38,6 +39,7 @@
                     </div>
                 </div>
             </div>
+        </div>
     </body>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"

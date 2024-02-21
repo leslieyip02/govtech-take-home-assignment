@@ -10,7 +10,7 @@ async function getRedeemability(teamId: number): Promise<Record<string, any>> {
     if (team === null) {
         return {
             canRedeem: false,
-            message: "Team does not exist",
+            message: "Team does not exist.",
         };
     }
 
@@ -20,8 +20,7 @@ async function getRedeemability(teamId: number): Promise<Record<string, any>> {
         // return timestamp to inform user of when it was redeemed
         return {
             canRedeem: false,
-            message: "Gift has already been redeeemed",
-            redeemedAt: team.redeemedAt,
+            message: `Gift was redeeemed on ${team.redeemedAt.toDateString()}.`,
         };
     } else {
         // if can redeem, return the team name
@@ -48,12 +47,12 @@ async function updateRedemption(
     if (staff === null) {
         return {
             redeemed: false,
-            message: "Staff does not exist",
+            message: `Could not find Staff ${staffPassId}`,
         };
     } else if (staff.team === null || staff.team === undefined) {
         return {
             redeemed: false,
-            message: "Staff does not belong to any team",
+            message: `Staff ${staffPassId} does not belong to any team`,
         };
     }
 
@@ -79,6 +78,7 @@ async function updateRedemption(
     } else {
         return {
             redeemed: true,
+            message: "Successfully redeemed!",
         };
     }
 }

@@ -1,61 +1,45 @@
 import "@govtechsg/sgds/css/sgds.css";
-import { Modal } from "bootstrap";
+import "bootstrap-icons/font/bootstrap-icons.css";
+import * as bootstrap from 'bootstrap';
 
-import createAlert from "./alert";
+import updateHint from "./hint";
+import updateModal from "./modal";
 
 window.onload = () => {
     const form = document.getElementById("redemptionForm")!;
     form.onsubmit = async (e) => {
         e.preventDefault();
 
+        // clear previous message
+        const redemptionMessage = document.getElementById("redemptionMessage")!;
+        redemptionMessage.style.display = "none";
+
+        // GET the staff's team
         const staffPassIdInput = document.getElementById(
             "staffPassId"
         )! as HTMLInputElement;
         const staffPassId = staffPassIdInput.value;
+        console.log(`${document.location}staff/${staffPassId}`);
         const team = await fetch(
             `${document.location}staff/${staffPassId}`
         ).then((res) => res.json());
         if (!team["exists"]) {
-            createAlert(team["message"]);
+            updateHint(team["message"], false);
             return;
         }
 
+        // GET the eligiblity of the staff's team
         const teamId = team["teamId"];
+        const teamName = team["teamName"];
         const redeemability = await fetch(
             `${document.location}redeem/${teamId}`
         ).then((res) => res.json());
         if (!redeemability["canRedeem"]) {
-            createAlert(redeemability["message"]);
+            updateHint(redeemability["message"], false);
             return;
         }
 
-        const confirmationModal = new Modal(
-            document.getElementById("confirmationModal")!
-        );
-
-        const redemptionButton = document.getElementById("redemptionButton")!;
-        redemptionButton.onclick = async (_) => {
-            const redemptionBody = {
-                staffPassId: staffPassId,
-                teamId: teamId,
-            };
-            const redemptionResult = await fetch(
-                `${document.location}redeem/${teamId}`,
-                {
-                    method: "PUT",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(redemptionBody),
-                }
-            ).then((res) => res.json());
-            if (!redemptionResult["redeemed"]) {
-                createAlert(redemptionResult["message"]);
-                return;
-            } else {
-                createAlert("Gift successfully redeemed!");
-            }
-            confirmationModal.hide();
-        };
-
-        confirmationModal.show();
+        // Redeem
+        updateModal(staffPassId, teamId, teamName);
     };
 };

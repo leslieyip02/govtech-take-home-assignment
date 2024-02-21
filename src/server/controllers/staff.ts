@@ -5,19 +5,28 @@ import Team from "../database/models/team";
  * GET /staff
  * Get the staff's team
  */
-async function getStaffTeam(staffPassId: number): Promise<Record<string, any>> {
+async function getStaffTeam(
+    staffPassId?: number
+): Promise<Record<string, any>> {
+    if (staffPassId === undefined) {
+        return {
+            exists: false,
+            message: "Please enter a Staff Pass ID",
+        };
+    }
+
     const staff = await Staff.findByPk(staffPassId, {
         include: Team,
     });
     if (staff === null) {
         return {
             exists: false,
-            message: "Staff does not exist",
+            message: `Could not find Staff ${staffPassId}`,
         };
     } else if (staff.team === null || staff.team === undefined) {
         return {
             exists: false,
-            message: "Staff does not belong to any team",
+            message: `Staff ${staffPassId} does not belong to any team`,
         };
     }
 
