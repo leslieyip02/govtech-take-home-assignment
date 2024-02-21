@@ -31,6 +31,8 @@ export default function updateModal(
         ).then((res) => res.json());
         if (redemptionResult["success"]) {
             updateHint("Gift successfully redeemed!", true);
+            const giftContent = document.getElementById("giftContent")!;
+            giftContent.style.height = "2rem";
         } else {
             updateHint(redemptionResult["message"], false);
         }

@@ -2,12 +2,26 @@
 <html>
     <head>
         <script src="./index.js" type="module"></script>
-        <link href="./index.css" rel="stylesheet" type="text/css" />
+        <link href="./index.css" rel="stylesheet" type="text/css">
+        <link href="/favicon.ico" rel="icon" type="image/x-icon">
         <title>GovTech Internship Take-Home Assignment</title>
     </head>
 
     <body>
         <main>
+            <div class="mb-4" id="giftContainer">
+                <div id="giftLid">
+                    <div id="giftRibbon"></div>
+                    <div id="giftCover">
+                        <div class="giftStripe"></div>
+                    </div>
+                </div>
+                <div id="giftContent"></div>
+                <div id="giftBox">
+                    <div class="giftStripe"></div>
+                </div>
+            </div>
+
             <form id="redemptionForm">
                 <div class="mb-2">
                     <label for="staffPassId" class="form-label">Staff Pass ID</label>
@@ -35,7 +49,9 @@
                         <button type="button" class="btn btn-outline-dark sgds" data-bs-dismiss="modal">
                             Cancel
                         </button>
-                        <button type="button" class="btn btn-primary sgds" id="redemptionButton">Redeem!</button>
+                        <button type="button" class="btn btn-primary sgds" id="redemptionButton">
+                            Redeem!
+                        </button>
                     </div>
                 </div>
             </div>

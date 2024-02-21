@@ -1,5 +1,5 @@
 dist
 node_modules
-public
-!public/*.css
-!public/*.html
+public/*.js
+public/*.woff
+public/*.woff2

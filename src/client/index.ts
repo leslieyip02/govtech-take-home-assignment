@@ -14,6 +14,9 @@ window.onload = () => {
         const redemptionMessage = document.getElementById("redemptionMessage")!;
         redemptionMessage.style.display = "none";
 
+        const giftContent = document.getElementById("giftContent")!;
+        giftContent.style.height = "0";
+
         // GET the staff's team
         const staffPassIdInput = document.getElementById(
             "staffPassId"
