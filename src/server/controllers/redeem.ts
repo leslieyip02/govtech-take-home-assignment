@@ -22,7 +22,7 @@ async function getRedeemability(teamId: number): Promise<Record<string, any>> {
         return {
             canRedeem: false,
             code: 200,
-            message: `Gift was redeeemed on ${team.redeemedAt.toDateString()}.`,
+            message: `Gift was redeeemed on ${team.redeemedAt.toLocaleString()}.`,
         };
     } else {
         // if can redeem, return the team name
@@ -73,7 +73,7 @@ async function updateRedemption(
         return {
             success: false,
             code: 400,
-            message: `Gift was redeeemed on ${staff.team.redeemedAt.toDateString()}.`,
+            message: `Gift was redeeemed on ${staff.team.redeemedAt.toLocaleString()}.`,
         };
     }
 

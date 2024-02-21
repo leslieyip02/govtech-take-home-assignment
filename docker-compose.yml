@@ -1,0 +1,45 @@
+version: "3"
+
+services:
+  db:
+    image: postgres:15.3-alpine3.18
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=postgres
+    ports:
+      - ${DB_PORT}:${DB_PORT}
+    volumes:
+      - postgres:/var/lib/postgresql/data:Z
+
+  test:
+    image: govtech-take-home-assignment
+    depends_on:
+      db:
+        condition: service_started
+    environment:
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=${DB_NAME}
+      - DB_HOST=host.docker.internal
+      - DB_PORT=${DB_PORT}
+    ports:
+      - ${PORT}:${PORT}
+    command: "npm run test"
+
+  app:
+    image: govtech-take-home-assignment
+    depends_on:
+      test:
+        condition: service_completed_successfully
+    environment:
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=${DB_NAME}
+      - DB_HOST=host.docker.internal
+      - DB_PORT=${DB_PORT}
+    ports:
+      - ${PORT}:${PORT}
+
+volumes:
+  postgres:
