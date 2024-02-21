@@ -1,4 +1,5 @@
 import { Router } from "express";
+
 import { getRedeemability, updateRedemption } from "../controllers/redeem";
 
 const redeemRouter = Router();
@@ -10,8 +11,9 @@ redeemRouter
         const teamId = params["teamId"];
         getRedeemability(teamId)
             .then((redeemability) => {
-                const code = redeemability["canRedeem"] ? 200 : 400;
-                res.status(code).json(redeemability);
+                res.status(redeemability["code"])
+                    .setHeader("Content-Type", "application/json")
+                    .json(redeemability);
             })
             .finally(next);
     })
@@ -21,7 +23,11 @@ redeemRouter
         const staffPassId = body["staffPassId"];
         const teamId = body["teamId"];
         updateRedemption(staffPassId, teamId)
-            .then((updated) => res.status(200).json(updated))
+            .then((result) => {
+                res.status(result["code"])
+                    .setHeader("Content-Type", "application/json")
+                    .json(result);
+            })
             .finally(next);
     });
 

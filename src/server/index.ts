@@ -10,8 +10,6 @@ import staffRouter from "./routes/staff";
 dotenv.config();
 dotenv.config({ path: `.env.${process.env["NODE_ENV"]}` });
 
-initializeDb();
-
 const app: Express = express();
 app.use(bodyparser.json());
 
@@ -23,7 +21,15 @@ app.get("/", (_, res: Response) => {
 app.use(staffRouter);
 app.use(redeemRouter);
 
-const port = process.env["PORT"]!;
-app.listen(port, () => {
-    console.log(`[server]: Server is running at http://localhost:${port}`);
-});
+if (require.main === module) {
+    initializeDb().then(() => {
+        const port = process.env["PORT"]!;
+        app.listen(port, () => {
+            console.log(
+                `[server]: Server is running at http://localhost:${port}`
+            );
+        });
+    });
+}
+
+export default app;

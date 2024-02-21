@@ -1,0 +1,4 @@
+{
+  "require": "mocha-suppress-logs",
+  "loader": "ts-node/esm"
+}

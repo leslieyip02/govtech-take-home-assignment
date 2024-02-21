@@ -1,6 +1,6 @@
 import "@govtechsg/sgds/css/sgds.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
-import * as bootstrap from 'bootstrap';
+import * as bootstrap from "bootstrap";
 
 import updateHint from "./hint";
 import updateModal from "./modal";
@@ -19,7 +19,6 @@ window.onload = () => {
             "staffPassId"
         )! as HTMLInputElement;
         const staffPassId = staffPassIdInput.value;
-        console.log(`${document.location}staff/${staffPassId}`);
         const team = await fetch(
             `${document.location}staff/${staffPassId}`
         ).then((res) => res.json());

@@ -9,6 +9,7 @@ import {
     Sequelize,
     NonAttribute,
 } from "sequelize";
+
 import Team from "./team";
 
 export default class Staff extends Model {

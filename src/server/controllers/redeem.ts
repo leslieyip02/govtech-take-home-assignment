@@ -10,6 +10,7 @@ async function getRedeemability(teamId: number): Promise<Record<string, any>> {
     if (team === null) {
         return {
             canRedeem: false,
+            code: 404,
             message: "Team does not exist.",
         };
     }
@@ -20,6 +21,7 @@ async function getRedeemability(teamId: number): Promise<Record<string, any>> {
         // return timestamp to inform user of when it was redeemed
         return {
             canRedeem: false,
+            code: 200,
             message: `Gift was redeeemed on ${team.redeemedAt.toDateString()}.`,
         };
     } else {
@@ -27,6 +29,7 @@ async function getRedeemability(teamId: number): Promise<Record<string, any>> {
         // and ask for confirmation of redemption
         return {
             canRedeem: true,
+            code: 200,
             teamName: team.name,
         };
     }
@@ -46,12 +49,15 @@ async function updateRedemption(
 
     if (staff === null) {
         return {
-            redeemed: false,
+            success: false,
+            code: 404,
             message: `Could not find Staff ${staffPassId}`,
         };
     } else if (staff.team === null || staff.team === undefined) {
+        // it should never reach
         return {
-            redeemed: false,
+            success: false,
+            code: 400,
             message: `Staff ${staffPassId} does not belong to any team`,
         };
     }
@@ -59,8 +65,15 @@ async function updateRedemption(
     console.log(`[updateRedemption]: ${JSON.stringify(staff)}`);
     if (staff.team.id != teamId) {
         return {
-            redeemed: false,
+            success: false,
+            code: 400,
             message: `Staff does not belong to team ${teamId}`,
+        };
+    } else if (staff.team.redeemed) {
+        return {
+            success: false,
+            code: 400,
+            message: `Gift was redeeemed on ${staff.team.redeemedAt.toDateString()}.`,
         };
     }
 
@@ -72,12 +85,14 @@ async function updateRedemption(
     console.log(`[updateRedemption]: ${JSON.stringify(updatedTeam)}`);
     if (updatedTeam === undefined) {
         return {
-            redeemed: false,
+            success: false,
+            code: 500,
             message: "Could not update database",
         };
     } else {
         return {
-            redeemed: true,
+            success: true,
+            code: 200,
             message: "Successfully redeemed!",
         };
     }

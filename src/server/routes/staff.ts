@@ -9,8 +9,9 @@ staffRouter.route("/staff/:staffPassId?").get(async (req, res, next) => {
     const staffPassId = params["staffPassId"];
     getStaffTeam(staffPassId)
         .then((team) => {
-            const code = team["exists"] ? 200 : 400;
-            res.status(code).json(team);
+            res.status(team["code"])
+                .setHeader("Content-Type", "application/json")
+                .json(team);
         })
         .finally(next);
 });

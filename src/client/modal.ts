@@ -29,11 +29,10 @@ export default function updateModal(
                 body: JSON.stringify(redemptionBody),
             }
         ).then((res) => res.json());
-        if (!redemptionResult["redeemed"]) {
-            updateHint(redemptionResult["message"], false);
-            return;
-        } else {
+        if (redemptionResult["success"]) {
             updateHint("Gift successfully redeemed!", true);
+        } else {
+            updateHint(redemptionResult["message"], false);
         }
         confirmationModal.hide();
     };
