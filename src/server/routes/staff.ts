@@ -2,6 +2,9 @@ import { Router } from "express";
 
 import { getStaffTeam } from "../controllers/staff";
 
+/**
+ * Handles requests to /staff/:staffPassId?
+ */
 const staffRouter = Router();
 staffRouter.route("/staff/:staffPassId?").get(async (req, res, next) => {
     console.log(`[/staff]: GET ${JSON.stringify(req.params)}`);

@@ -2,6 +2,9 @@ import { Router } from "express";
 
 import { getRedeemability, updateRedemption } from "../controllers/redeem";
 
+/**
+ * Handles requests to /redeem/:teamId
+ */
 const redeemRouter = Router();
 redeemRouter
     .route("/redeem/:teamId")

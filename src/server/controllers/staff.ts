@@ -2,8 +2,10 @@ import Staff from "../database/models/staff";
 import Team from "../database/models/team";
 
 /**
- * GET /staff
- * Get the staff's team
+ * GET /staff - Get the staff's team
+ * 
+ * @param staffPassId Staff pass ID
+ * @returns A record containing the staff's team
  */
 async function getStaffTeam(
     staffPassId?: string

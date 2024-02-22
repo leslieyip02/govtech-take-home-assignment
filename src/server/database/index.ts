@@ -6,7 +6,11 @@ import { Sequelize } from "sequelize";
 import Staff from "./models/staff";
 import Team from "./models/team";
 
-async function initializeDb(): Promise<any> {
+/**
+ * Set up database and insert the data from the data csv into the database
+ */
+async function initializeDb(): Promise<void> {
+    // read from .env
     const dbName = process.env["DB_NAME"]!;
     const dbUser = process.env["DB_USER"]!;
     const dbPassword = process.env["DB_PASSWORD"]!;
@@ -18,6 +22,7 @@ async function initializeDb(): Promise<any> {
     Staff.initialize(sequelize);
     Team.initialize(sequelize);
 
+    // set up associations
     Staff.belongsTo(Team, {
         foreignKey: "teamId",
     });
@@ -33,6 +38,11 @@ async function initializeDb(): Promise<any> {
         .then(() => console.log("[ingestion]: Ingestion complete"));
 }
 
+/**
+ * Ingests staff pass ID mappings into the database
+ *
+ * @param csvPath Path to the csv containing the staff pass ID mappings
+ */
 async function ingestCsv(csvPath: string): Promise<void> {
     const rawStaffs: Record<string, any>[] = [];
     const rawTeams: Record<string, number> = {};
@@ -87,9 +97,7 @@ async function ingestCsv(csvPath: string): Promise<void> {
                                 )
                             );
                         })
-                        .then(() => {
-                            resolve();
-                        });
+                        .then(() => resolve);
                 })
         );
     });

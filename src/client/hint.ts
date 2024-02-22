@@ -1,3 +1,9 @@
+/**
+ * Updates hint text under the text input to give feedback to user
+ * 
+ * @param message Message to display to user
+ * @param success Toggle color of message
+ */
 export default function updateHint(message: string, success: boolean) {
     const redemptionMessage = document.getElementById("redemptionMessage")!;
     redemptionMessage.innerText = message;

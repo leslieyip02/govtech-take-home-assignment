@@ -56,6 +56,7 @@ export default class Team extends Model {
             }
         );
 
+        // automatically set the redeemedAt field
         sequelize.addHook("afterUpdate", (instance: Team) => {
             instance.update({
                 redeemedAt: sequelize.fn("NOW"),

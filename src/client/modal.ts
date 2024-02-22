@@ -2,6 +2,13 @@ import { Modal } from "bootstrap";
 
 import updateHint from "./hint";
 
+/**
+ * Opens a modal asking the user for confirmation of redemption
+ *
+ * @param staffPassId Staff pass ID
+ * @param teamId Staff's team ID
+ * @param teamName Staff's team name
+ */
 export default function updateModal(
     staffPassId: string,
     teamId: number,
@@ -31,6 +38,8 @@ export default function updateModal(
         ).then((res) => res.json());
         if (redemptionResult["success"]) {
             updateHint("Gift successfully redeemed!", true);
+
+            // opens the gift box
             const giftContent = document.getElementById("giftContent")!;
             giftContent.style.height = "2rem";
         } else {

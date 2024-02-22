@@ -2,8 +2,10 @@ import Staff from "../database/models/staff";
 import Team from "../database/models/team";
 
 /**
- * GET /redeem
- * Check if the team can redeem
+ * GET /redeem - Check if a team can redeem
+ *
+ * @param teamId Team's ID
+ * @returns A record containing the team's redeemability
  */
 async function getRedeemability(teamId: number): Promise<Record<string, any>> {
     const team = await Team.findByPk(teamId);
@@ -11,7 +13,7 @@ async function getRedeemability(teamId: number): Promise<Record<string, any>> {
         return {
             canRedeem: false,
             code: 404,
-            message: "Team does not exist.",
+            message: "Team does not exist",
         };
     }
 
@@ -22,7 +24,7 @@ async function getRedeemability(teamId: number): Promise<Record<string, any>> {
         return {
             canRedeem: false,
             code: 200,
-            message: `Gift was redeeemed on ${team.redeemedAt.toLocaleString()}.`,
+            message: `Gift was redeeemed on ${team.redeemedAt.toLocaleString()}`,
         };
     } else {
         // if can redeem, return the team name
@@ -36,8 +38,11 @@ async function getRedeemability(teamId: number): Promise<Record<string, any>> {
 }
 
 /**
- * PUT /redeem
- * Update redemption table
+ * PUT /redeem - Update redemption table
+ *
+ * @param staffPassId Staff pass ID
+ * @param teamId Team's ID
+ * @returns A record containing the result of the redemption
  */
 async function updateRedemption(
     staffPassId: number,
@@ -73,7 +78,7 @@ async function updateRedemption(
         return {
             success: false,
             code: 400,
-            message: `Gift was redeeemed on ${staff.team.redeemedAt.toLocaleString()}.`,
+            message: `Gift was redeeemed on ${staff.team.redeemedAt.toLocaleString()}`,
         };
     }
 
