@@ -97,7 +97,9 @@ async function ingestCsv(csvPath: string): Promise<void> {
                                 )
                             );
                         })
-                        .then(() => resolve);
+                        .then(() => {
+                            resolve();
+                        });
                 })
         );
     });

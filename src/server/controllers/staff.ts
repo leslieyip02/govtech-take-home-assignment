@@ -3,7 +3,7 @@ import Team from "../database/models/team";
 
 /**
  * GET /staff - Get the staff's team
- * 
+ *
  * @param staffPassId Staff pass ID
  * @returns A record containing the staff's team
  */
@@ -17,7 +17,7 @@ async function getStaffTeam(
             message: "Please enter a Staff Pass ID",
         };
     }
-    
+
     const staff = await Staff.findByPk(staffPassId, {
         include: Team,
     });

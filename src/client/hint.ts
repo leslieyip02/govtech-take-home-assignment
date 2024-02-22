@@ -1,6 +1,6 @@
 /**
  * Updates hint text under the text input to give feedback to user
- * 
+ *
  * @param message Message to display to user
  * @param success Toggle color of message
  */
